@@ -145,6 +145,7 @@ public class ExtraTasks {
         softAssert.assertEquals("TestNG Tutorial",actual,"Assertion Failed");
         softAssert.assertAll();
         driver.quit();
+        //test
 //        wait.until(d->{
 //            By titleTestNG= By.xpath("(//article)[4]//h2//span");
 //            String actual=driver.findElement(titleTestNG).getText();
