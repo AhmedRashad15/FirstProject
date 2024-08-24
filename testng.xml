@@ -2,8 +2,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true" name="C:/Users/Smart Lap/IdeaProjects/FirstProject"><classes>
-        <class name="testsPackage.BasicTests">
+        <class name="testsPackage.linear.BasicTests">
             <methods><include name="setUp"/>
             </methods>
         </class>
-        <class name="testsPackage.ExtraTasks"><methods><include name="assertGoogle"/><include name="assertOnLogo"/><include name="assertOnGoogleResultSearch"/><include name="openMozillaFireFox"/></methods></class></classes></test></suite>
+        <class name="testsPackage.linear.ExtraTasks"><methods><include name="assertGoogle"/><include name="assertOnLogo"/><include name="assertOnGoogleResultSearch"/><include name="openMozillaFireFox"/></methods></class></classes></test></suite>

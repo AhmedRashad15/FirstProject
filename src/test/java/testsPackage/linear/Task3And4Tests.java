@@ -1,7 +1,7 @@
-package testsPackage;
+package testsPackage.linear;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 import org.testng.Assert;
@@ -9,11 +9,17 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import duckDuckGoPages.Landing;
+import duckDuckGoPages.SearchResult;
 
 import java.time.Duration;
 
 public class Task3And4Tests {
     WebDriver driver;
+    Landing landingPage;
+    SearchResult searchResultPage;
+
+    String searchInput="Selenium WebDriver";
     Wait<WebDriver> wait=new FluentWait<>(driver)
             .withTimeout(Duration.ofSeconds(5))
             .pollingEvery(Duration.ofMillis(500))
@@ -35,22 +41,23 @@ public class Task3And4Tests {
 //    }
     @BeforeMethod
     public void setUp(){
-        driver=new FirefoxDriver();
+        driver=new ChromeDriver();
         driver.manage().window().setPosition(new Point(0,0));
         driver.manage().window().setSize(new Dimension(1280 ,720));
-        driver.navigate().to("https://duckduckgo.com/");
+        landingPage=new Landing(driver);
+        searchResultPage=new SearchResult(driver);
+        landingPage.navigate();
     }
     //Test Comment
     @Test
     public void task3(){
 
-        By searchField=By.id("searchbox_input");
-        driver.findElement(searchField).sendKeys("Selenium WebDriver",Keys.ENTER);
-        By Link=By.xpath("(//article)[1]//h2/a");
+        landingPage.searchForDoc(searchInput);
+        SearchResult searchResultPage=new SearchResult(driver);
+
         wait.until(d -> {
-            driver.findElement(Link);
-            String actualLink = driver.findElement(Link).getAttribute("href");
-            Assert.assertEquals(actualLink, "https://www.selenium.dev/documentation/webdriver/");
+            Assert.assertEquals(searchResultPage.getLink()
+, "https://www.selenium.dev/documentation/webdriver/");
             return true;
         });
 
@@ -58,16 +65,14 @@ public class Task3And4Tests {
     }
     @Test
     public void task4(){
-        By searchField= By.id("searchbox_input");
-        driver.findElement(searchField).sendKeys("TestNG",Keys.ENTER);
-
-        By titleTestNG= By.xpath("(//article)[4]//h2//span");
-
+        String searchInput="TestNg";
+        landingPage.searchForDoc(searchInput);
+        String actual="TestNG Tutorial";
         wait.until( d-> {
-            driver.findElement(titleTestNG);
+
             SoftAssert softAssert = new SoftAssert();
-            String actual = driver.findElement(titleTestNG).getText();
-            softAssert.assertEquals("TestNG Tutorial", actual, "Assertion Failed");
+
+            softAssert.assertEquals(searchResultPage.getTitle() , actual, "Assertion Failed");
             softAssert.assertAll();
             return true;
         });
