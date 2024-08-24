@@ -93,21 +93,18 @@ public class ExtraTasks {
 //
 //        return  foo;
 //    };
+//
+
     public WebElement fluentWait(final By Locator){
-        Wait<WebDriver> wait=new FluentWait<WebDriver>(driver)
-                .withTimeout(Duration.ofSeconds(5))
-                .pollingEvery(Duration.ofMillis(500))
-                .ignoring(NoSuchElementException.class)
-                .ignoring(ElementNotInteractableException.class)
-                .ignoring(ElementNotInteractableException.class);
-        WebElement foo=wait.until(new Function<WebDriver, WebElement>() {
-            @Override
-            public WebElement apply(WebDriver webDriver) {
-                return driver.findElement(Locator);
-            }
-        });
-            return foo;
-    }
+            Wait<WebDriver> wait=new FluentWait<WebDriver>(driver)
+                    .withTimeout(Duration.ofSeconds(3))
+                    .pollingEvery(Duration.ofMillis(300))
+                    .ignoring(NoSuchElementException.class)
+                    .ignoring(ElementNotInteractableException.class)
+                    .ignoring(StaleElementReferenceException.class);
+            WebElement foo=wait.until(webDriver -> driver.findElement(Locator));
+        return foo;
+        }
     @Test
     public void openMozillaFireFox() throws InterruptedException {
         setUp("Firefox");
@@ -147,6 +144,7 @@ public class ExtraTasks {
         String actual=driver.findElement(titleTestNG).getText();
         softAssert.assertEquals("TestNG Tutorial",actual,"Assertion Failed");
         softAssert.assertAll();
+        driver.quit();
 //        wait.until(d->{
 //            By titleTestNG= By.xpath("(//article)[4]//h2//span");
 //            String actual=driver.findElement(titleTestNG).getText();
@@ -155,7 +153,7 @@ public class ExtraTasks {
 //         return true;
 //        });
 
-        driver.quit();
+
     }
 }
 
